@@ -56,20 +56,22 @@ export default function App() {
 
     return (
         <main>
-            <h1>Rick&Morty Memory Game</h1>
+            <h1>Rick & Morty Memory Game</h1>
+            <p className="subtitle">Get points by clicking each character only once.</p>
+
             <ScoreBoard score={score} bestScore={bestScore} />
 
-            <p>Get points by clicking on a card only once</p>
-
-            {loading && <p>Loading cards...</p>}
-            {error && <p>{error}</p>}
+            <section className="game-area">
+            {loading && <p className="loading">Loading cards...</p>}
+            {error && <p className="error">{error}</p>}
 
             {!loading && !error && (
                 <CardGrid
-                    cards={cards}
-                    handleCardClick={handleCardClick}
+                cards={cards}
+                handleCardClick={handleCardClick}
                 />
             )}
+            </section>
         </main>
-    )
+    );
 }
