@@ -14,45 +14,41 @@ export default function App() {
     const [gameWon, setGameWon] = useState(false);
     const [showWinModal , setShowWinModal] = useState(false);
 
+    async function loadCards () {
+        try {
+            setLoading(true);
+            setError("");
+
+            const characters = await fetchCharacterCards(12);
+            setCards(shuffleArray(characters));
+        } catch (error) {
+            setError(error.message || "Something went wrong");
+        } finally {
+            setLoading(false);
+        }
+    }
 
     useEffect(() => {
-        async function loadCards () {
-            try {
-                setLoading(true);
-                setError("");
-
-                const characters = await fetchCharacterCards(12);
-                setCards(shuffleArray(characters));
-            } catch (error) {
-                setError(error.message || "Something went wrong");
-            } finally {
-                setLoading(false);
-            }
-        }
-
         loadCards();
     }, []);
 
-    function resetGame() {
+    async function resetGame() {
         setScore(0);
         setClickedCards([]);
         setGameWon(false);
-        setCards((prev) => shuffleArray(prev));
+        await loadCards();
     }
 
-    function handleCloseModal() {
+    async function handleCloseModal() {
         setShowWinModal(false);
-        resetGame();
+        await resetGame();
     }
 
-    function handleCardClick(id) {
-        if (gameWon) return;
+    async function handleCardClick(id) {
+        if (gameWon || loading) return;
 
         if (clickedCards.includes(id)) {
-            setScore(0);
-            setClickedCards([]);
-            setGameWon(false);
-            setCards((prev) => shuffleArray(prev));
+            await resetGame();
             return;
         }
 

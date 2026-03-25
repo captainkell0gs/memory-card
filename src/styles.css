@@ -52,7 +52,7 @@ main {
 
 h1 {
     margin: 0;
-    font-size: clamp(2.25rem, 5vw, 4rem);
+    font-size: clamp(2rem, 5vw, 3rem);
     line-height: 1;
     letter-spacing: -0.04em;
     text-align: center;
@@ -119,6 +119,7 @@ h1 {
 }
 
 .game-area {
+    min-height: 500px;
     margin-top: 2rem;
     padding: 1.25rem;
     border-radius: 28px;
