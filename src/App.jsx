@@ -11,6 +11,8 @@ export default function App() {
     const [clickedCards, setClickedCards] = useState([]);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
+    const [gameWon, setGameWon] = useState(false);
+    const [showWinModal , setShowWinModal] = useState(false);
 
 
     useEffect(() => {
@@ -31,25 +33,43 @@ export default function App() {
         loadCards();
     }, []);
 
+    function resetGame() {
+        setScore(0);
+        setClickedCards([]);
+        setGameWon(false);
+        setCards((prev) => shuffleArray(prev));
+    }
+
+    function handleCloseModal() {
+        setShowWinModal(false);
+        resetGame();
+    }
+
     function handleCardClick(id) {
+        if (gameWon) return;
+
         if (clickedCards.includes(id)) {
             setScore(0);
             setClickedCards([]);
+            setGameWon(false);
             setCards((prev) => shuffleArray(prev));
             return;
         }
 
-        setClickedCards((prev) => [...prev, id]);
+        const updatedClickedCards = [...clickedCards, id];
+        const newScore = score + 1;
 
-        setScore((prevScore) => {
-            const newScore = prevScore + 1;
+        setClickedCards(updatedClickedCards);
+        setScore(newScore);
+        setBestScore((prevBest) => (
+            newScore > prevBest ? newScore : prevBest
+        ));
 
-            setBestScore((prevBest) => 
-                newScore > prevBest ? newScore : prevBest
-            );
-
-            return newScore;
-        });
+        if (updatedClickedCards.length === cards.length) {
+            setGameWon(true);
+            setShowWinModal(true);
+            return;
+        }
 
         setCards((prev) => shuffleArray(prev));
     }
@@ -64,6 +84,23 @@ export default function App() {
             <section className="game-area">
             {loading && <p className="loading">Loading cards...</p>}
             {error && <p className="error">{error}</p>}
+
+            {showWinModal && (
+                <div className="modal-overlay">
+                    <div className="modal">
+                        <h2>You Win!</h2>
+                        <p>You clicked every card without repeating!</p>
+
+                        <button
+                            type="button"
+                            className="modal-btn"
+                            onClick={handleCloseModal}
+                        >
+                            Play Again
+                        </button>
+                    </div>
+                </div>
+            )}
 
             {!loading && !error && (
                 <CardGrid

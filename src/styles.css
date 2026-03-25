@@ -226,6 +226,74 @@ h1 {
     color: #ffd1d1;
 }
 
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(3, 8, 20, 0.75);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+.modal {
+    width: min(420px, 90%);
+    padding: 2rem 1.8rem;
+    border-radius: 22px;
+    background: linear-gradient(
+        180deg,
+        rgba(15, 23, 42, 0.95),
+        rgba(8, 15, 30, 0.95)
+    );
+    border: 1px solid rgba(124, 255, 203, 0.25);
+    text-align: center;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+    animation: popIn 0.25s ease;
+}
+
+.modal h2 {
+    margin: 0 0 0.5rem;
+    font-size: 1.8rem;
+    color: var(--accent-green);
+}
+
+.modal p {
+    margin: 0 0 1.4rem;
+    color: var(--text-soft);
+}
+
+.modal-btn {
+    border: none;
+    border-radius: 999px;
+    padding: 0.85rem 1.4rem;
+    font-weight: 800;
+    cursor: pointer;
+    background: linear-gradient(
+        135deg,
+        var(--accent-green),
+        var(--accent-blue)
+    );
+    color: #021018;
+    transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.modal-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+@keyframes popIn {
+    from {
+        transform: scale(0.85);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
 @media (max-width: 900px) {
     main {
         width: 94%;
