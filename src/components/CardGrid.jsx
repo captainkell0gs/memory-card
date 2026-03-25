@@ -1,9 +1,9 @@
-import Card from "./card";
+import Card from "./Card"
 
-export default function CardGrid({card, handleCardClick}) {
+export default function CardGrid({cards, handleCardClick}) {
     return (
         <section className="card-grid">
-            {card.map((card) => (
+            {cards.map((card) => (
                 <Card 
                     key={card.id} 
                     card={card} 

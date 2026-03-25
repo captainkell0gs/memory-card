@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
-import CardGrid from "./components/cardGrid";
+import CardGrid from "./components/CardGrid";
 import ScoreBoard from "./components/ScoreBoard";
 import shuffleArray from "./utils/shuffle";
 import { fetchCharacterCards } from "./api/rickMorty";
 
-export default function App () {
+export default function App() {
     const [cards, setCards] = useState([]); 
     const [score, setScore] = useState(0);
     const [bestScore, setBestScore] = useState(0);
     const [clickedCards, setClickedCards] = useState([]);
     const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
 
     useEffect(() => {
@@ -20,9 +20,9 @@ export default function App () {
                 setError("");
 
                 const characters = await fetchCharacterCards(12);
-                setClickedCards(shuffleArray(characters));
+                setCards(shuffleArray(characters));
             } catch (error) {
-                setError(error.message);
+                setError(error.message || "Something went wrong");
             } finally {
                 setLoading(false);
             }
@@ -51,7 +51,7 @@ export default function App () {
             return newScore;
         });
 
-        setClickedCards((prev) => shuffleArray(prev));
+        setCards((prev) => shuffleArray(prev));
     }
 
     return (
@@ -72,5 +72,4 @@ export default function App () {
             )}
         </main>
     )
-
 }
